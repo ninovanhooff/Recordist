@@ -1,1 +1,3 @@
-include ':app'
+include ':app', ':phonograph', ':sample_app'
+project(':phonograph').projectDir = new File('Phonograph/phonograph')
+project(':sample_app').projectDir = new File('Phonograph/sample_app')

@@ -1,0 +1,3 @@
+[submodule "Phonograph"]
+	path = Phonograph
+	url = git@github.com:ninovanhooff/Phonograph.git
