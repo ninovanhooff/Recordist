@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion versions.targetSdkVersion
     defaultConfig {
         applicationId "com.ninovanhooff.recordist"
         minSdkVersion versions.minSdkVersion
