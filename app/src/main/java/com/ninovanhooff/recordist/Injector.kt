@@ -3,14 +3,16 @@ package com.ninovanhooff.recordist
 import android.content.Context
 import com.dimowner.phonograph.AppRecorder
 import com.dimowner.phonograph.BackgroundQueue
+import com.dimowner.phonograph.Phonograph
 import com.dimowner.phonograph.PhonographConstants
 import com.dimowner.phonograph.audio.recorder.AudioRecorder
 import com.dimowner.phonograph.audio.recorder.RecorderContract.Recorder
 import com.dimowner.phonograph.audio.recorder.WavRecorder
+import com.dimowner.phonograph.data.FileRepository
 import com.ninovanhooff.recordist.data.Prefs
 import com.ninovanhooff.recordist.data.PrefsImpl
 
-class Injector constructor(val context: Context) {
+class Injector constructor(private val context: Context) {
 
     private val loadingTasks: BackgroundQueue by lazy {
         BackgroundQueue("LoadingTasks")
@@ -22,21 +24,17 @@ class Injector constructor(val context: Context) {
         BackgroundQueue("ProcessingTasks")
     }
 
+    fun provideApplicationContext(): Context = context
+
     fun providePrefs(): Prefs {
         return PrefsImpl.getInstance(context) as Prefs
     }
 
-    fun provideLoadingTasksQueue(): BackgroundQueue {
-        return loadingTasks
-    }
+    fun provideLoadingTasksQueue(): BackgroundQueue = loadingTasks
 
-    fun provideRecordingTasksQueue(): BackgroundQueue {
-        return recordingTasks
-    }
+    fun provideRecordingTasksQueue(): BackgroundQueue = recordingTasks
 
-    fun provideProcessingTasksQueue(): BackgroundQueue {
-        return processingTasks
-    }
+    fun provideProcessingTasksQueue(): BackgroundQueue = processingTasks
 
     fun provideAudioRecorder(): Recorder {
         return if (providePrefs().getFormat() == PhonographConstants.RECORDING_FORMAT_WAV) {
@@ -46,9 +44,13 @@ class Injector constructor(val context: Context) {
         }
     }
 
-    fun provideAppRecorder(): AppRecorder? {
+    fun provideAppRecorder(): AppRecorder {
         return AppRecorderImpl.getInstance(provideAudioRecorder(),
                 provideLoadingTasksQueue(), provideProcessingTasksQueue(), providePrefs())
+    }
+
+    fun provideFileRepository(): FileRepository {
+        return Phonograph.getFileRepository()
     }
 
     fun closeTasks() {

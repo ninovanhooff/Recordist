@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.ninovanhooff.recordist.databinding.RecordingFragmentBinding
 
 class RecordingFragment : Fragment() {
@@ -19,12 +20,12 @@ class RecordingFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         _binding = RecordingFragmentBinding.inflate(inflater, container, false)
 
-        val model: RecordingViewModel by viewModels()
-        model.getPlaying().observe(viewLifecycleOwner, Observer<Boolean>{ playing ->
-            binding.textView.text = if (playing) "Playing" else "NOT PLaying"
+        val model: RecordingViewModel by viewModels { RecordingViewModelFactory() }
+        model.getRecording().observe(viewLifecycleOwner, Observer<Boolean>{ playing ->
+            binding.textView.text = if (playing) "Recording" else "NOT Recording"
         })
 
-        binding.recordButton.setOnClickListener { model.togglePlaying() }
+        binding.recordButton.setOnClickListener { model.toggleRecording() }
 
         return binding.root
     }

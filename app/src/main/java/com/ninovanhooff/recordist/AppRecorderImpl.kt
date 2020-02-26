@@ -170,19 +170,15 @@ class AppRecorderImpl private constructor(private var audioRecorder: Recorder, t
 
     companion object {
         @Volatile
-        private var instance: AppRecorderImpl? = null
+        private var INSTANCE: AppRecorderImpl? = null
 
         fun getInstance(recorder: Recorder, tasks: BackgroundQueue,
-                        processingTasks: BackgroundQueue, prefs: Prefs): AppRecorderImpl? {
-            if (instance == null) {
-                synchronized(AppRecorderImpl::class.java) {
-                    if (instance == null) {
-                        instance = AppRecorderImpl(recorder, tasks, processingTasks, prefs)
-                    }
+                        processingTasks: BackgroundQueue, prefs: Prefs): AppRecorderImpl =
+                INSTANCE ?: synchronized(this) {
+                    INSTANCE
+                            ?: AppRecorderImpl(recorder, tasks, processingTasks, prefs)
+                                    .also { INSTANCE = it }
                 }
-            }
-            return instance
-        }
     }
 
     init {
