@@ -2,6 +2,7 @@ package com.ninovanhooff.recordist
 
 import android.app.Application
 import com.dimowner.phonograph.Phonograph
+import com.dimowner.phonograph.util.AndroidUtils
 import com.ninovanhooff.recordist.presentation.MainActivity
 import timber.log.Timber
 
@@ -20,6 +21,7 @@ class RecordistApplication: Application() {
                 MainActivity::class.java,
                 injector.provideAppRecorder()
         )
+        Phonograph.setScreenWidthDp(AndroidUtils.pxToDp(AndroidUtils.getScreenWidth(applicationContext)))
     }
 
     override fun onTerminate() {

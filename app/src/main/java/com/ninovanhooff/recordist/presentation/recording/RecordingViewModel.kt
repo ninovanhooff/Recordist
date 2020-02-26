@@ -1,7 +1,6 @@
 package com.ninovanhooff.recordist.presentation.recording
 
 import android.content.Intent
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -22,7 +21,9 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
     : ViewModel() {
     private val appRecorderCallback: AppRecorderCallback
 
-    private val _recording: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
+    val recordingState: MutableLiveData<RecordingState> by lazy { 
+        MutableLiveData<RecordingState>(RecordingState.IDLE) 
+    }
     val amplitudeUpdates: MutableLiveData<AmplitudeUpdate> = MutableLiveData()
 
     init {
@@ -30,21 +31,23 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
         appRecorder.addRecordingCallback(appRecorderCallback)
     }
 
-    fun getRecording(): LiveData<Boolean> {
-        return _recording
-    }
-
     fun toggleRecording() {
-        _recording.value = _recording.value!!.not()
+        when(recordingState.value){
+            RecordingState.IDLE -> recordingState.value = RecordingState.STARTING
+            RecordingState.RECORDING -> recordingState.value = RecordingState.STOPPING
+            null -> throw IllegalStateException("recording state cannot be null")
+            else -> return
+        }
 
-        if (_recording.value!!) {
+        if (recordingState.value == RecordingState.STARTING) {
             try {
                 appRecorder.startRecording(fileRepository.provideRecordFile().absolutePath)
             } catch (e: CantCreateFileException) {
+                recordingState.value = RecordingState.IDLE
                Timber.e(e)
                 throw NotImplementedError("Notfiy user")
             }
-        } else {
+        } else { // STOPPING
             appRecorder.stopRecording()
         }
     }
@@ -57,6 +60,7 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
                 val intent = Intent(appContext, RecordingService::class.java)
                 intent.action = RecordingService.ACTION_START_RECORDING_SERVICE
                 appContext.startService(intent)
+                recordingState.postValue(RecordingState.RECORDING)
             }
 
             override fun onRecordingPaused() {
@@ -72,7 +76,7 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
             }
 
             override fun onRecordingStopped(id: Long, file: File) {
-                _recording.postValue(false)
+                recordingState.postValue(RecordingState.IDLE)
             }
 
             override fun onRecordingProgress(mills: Long, amp: Int) {
@@ -84,6 +88,10 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
             }
         }
     }
+}
+
+enum class RecordingState {
+    IDLE, STARTING, RECORDING, STOPPING;
 }
 
 class RecordingViewModelFactory : ViewModelProvider.NewInstanceFactory() {

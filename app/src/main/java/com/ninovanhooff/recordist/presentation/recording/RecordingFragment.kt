@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import com.dimowner.phonograph.util.TimeUtils
 import com.ninovanhooff.recordist.databinding.RecordingFragmentBinding
+import timber.log.Timber
 
 class RecordingFragment : Fragment() {
     private var _binding: RecordingFragmentBinding? = null
@@ -21,8 +22,20 @@ class RecordingFragment : Fragment() {
         _binding = RecordingFragmentBinding.inflate(inflater, container, false)
 
         val model: RecordingViewModel by viewModels { RecordingViewModelFactory() }
-        model.getRecording().observe(viewLifecycleOwner, Observer<Boolean>{ playing ->
-            binding.textView.text = if (playing) "Recording" else "NOT Recording"
+        model.recordingState.observe(viewLifecycleOwner, Observer{ recordingState ->
+            binding.statusText.text = recordingState.name
+
+            when(recordingState){
+                RecordingState.STARTING -> binding.waveform.clearRecordingData()
+                RecordingState.RECORDING -> binding.waveform.showRecording()
+                RecordingState.IDLE -> binding.waveform.hideRecording()
+                else -> {}
+            }
+        })
+
+        model.amplitudeUpdates.observe(viewLifecycleOwner, Observer {
+            binding.progressText.text = TimeUtils.formatTimeIntervalHourMinSec2(it.first)
+            binding.waveform.addRecordAmp(it.second)
         })
 
         binding.recordButton.setOnClickListener { model.toggleRecording() }
