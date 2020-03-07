@@ -39,6 +39,7 @@ class RecordingFragment : Fragment() {
         })
 
         binding.recordButton.setOnClickListener { model.toggleRecording() }
+        binding.monitorButton.setOnClickListener { model.toggleMonitoring() }
 
         return binding.root
     }

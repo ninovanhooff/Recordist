@@ -1,6 +1,7 @@
 package com.ninovanhooff.recordist
 
 import com.dimowner.phonograph.*
+import com.dimowner.phonograph.audio.recorder.RecorderContract
 import com.dimowner.phonograph.audio.recorder.RecorderContract.Recorder
 import com.dimowner.phonograph.audio.recorder.RecorderContract.RecorderCallback
 import com.dimowner.phonograph.exception.AppException
@@ -88,9 +89,23 @@ class AppRecorderImpl private constructor(private var audioRecorder: Recorder, t
         }
     }
 
+    override fun supportsMonitoring(): Boolean {
+        return audioRecorder is RecorderContract.RecorderMonitor
+    }
+
+    override fun startMonitoring() {
+        monitor()?.startMonitoring()
+    }
+
+    override fun stopMonitoring() {
+        monitor()?.stopMonitoring()
+    }
+
     override fun getRecordingData(): List<Int> {
         return recordingData
     }
+
+    override fun isMonitoring(): Boolean = monitor()?.isMonitoring ?: false
 
     override fun isRecording(): Boolean {
         return audioRecorder.isRecording
@@ -116,6 +131,7 @@ class AppRecorderImpl private constructor(private var audioRecorder: Recorder, t
                 appCallbacks[i].onRecordingStarted()
             }
         }
+
     }
 
     private fun onRecordingPaused() {
@@ -166,6 +182,10 @@ class AppRecorderImpl private constructor(private var audioRecorder: Recorder, t
                 appCallbacks[i].onError(e)
             }
         }
+    }
+
+    private fun monitor() : RecorderContract.RecorderMonitor? {
+        return if (supportsMonitoring()) audioRecorder as RecorderContract.RecorderMonitor else null
     }
 
     companion object {

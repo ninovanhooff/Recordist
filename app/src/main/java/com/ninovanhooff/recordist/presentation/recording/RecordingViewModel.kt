@@ -52,6 +52,14 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
         }
     }
 
+    fun toggleMonitoring() {
+        if (appRecorder.isMonitoring){
+            appRecorder.stopMonitoring()
+        } else {
+            appRecorder.startMonitoring()
+        }
+    }
+
     private fun initCallback(): AppRecorderCallback {
 
         return object : AppRecorderCallback {

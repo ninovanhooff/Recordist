@@ -114,7 +114,7 @@ class PrefsImpl private constructor(context: Context) : Prefs {
     }
 
     override fun getFormat(): Int {
-        return sharedPreferences.getInt(PREF_KEY_FORMAT, PhonographConstants.RECORDING_FORMAT_M4A)
+        return sharedPreferences.getInt(PREF_KEY_FORMAT, PhonographConstants.RECORDING_FORMAT_WAV)
     }
 
     override fun setBitrate(q: Int) {
