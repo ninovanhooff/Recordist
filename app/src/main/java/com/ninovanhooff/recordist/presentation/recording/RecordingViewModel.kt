@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.dimowner.phonograph.AppRecorder
 import com.dimowner.phonograph.AppRecorderCallback
 import com.dimowner.phonograph.RecordingService
@@ -11,6 +12,7 @@ import com.dimowner.phonograph.data.FileRepository
 import com.dimowner.phonograph.exception.AppException
 import com.dimowner.phonograph.exception.CantCreateFileException
 import com.ninovanhooff.recordist.RecordistApplication
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 
@@ -58,6 +60,10 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
         } else {
             appRecorder.startMonitoring()
         }
+    }
+
+    override fun onCleared() {
+        appRecorder.release()
     }
 
     private fun initCallback(): AppRecorderCallback {
