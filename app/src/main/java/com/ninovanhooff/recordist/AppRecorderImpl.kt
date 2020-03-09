@@ -1,12 +1,12 @@
 package com.ninovanhooff.recordist
 
-import com.dimowner.phonograph.*
-import com.dimowner.phonograph.audio.recorder.RecorderContract
-import com.dimowner.phonograph.audio.recorder.RecorderContract.Recorder
-import com.dimowner.phonograph.audio.recorder.RecorderContract.RecorderCallback
-import com.dimowner.phonograph.exception.AppException
-import com.dimowner.phonograph.exception.CantProcessRecord
-import com.dimowner.phonograph.util.AndroidUtils
+import com.ninovanhooff.phonograph.*
+import com.ninovanhooff.phonograph.audio.recorder.RecorderContract
+import com.ninovanhooff.phonograph.audio.recorder.RecorderContract.Recorder
+import com.ninovanhooff.phonograph.audio.recorder.RecorderContract.RecorderCallback
+import com.ninovanhooff.phonograph.exception.AppException
+import com.ninovanhooff.phonograph.exception.CantProcessRecord
+import com.ninovanhooff.phonograph.util.AndroidUtils
 import com.ninovanhooff.recordist.data.Prefs
 import timber.log.Timber
 import java.io.File

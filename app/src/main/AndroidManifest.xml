@@ -22,7 +22,7 @@
             <nav-graph android:value="@navigation/mobile_navigation" />
         </activity>
 
-        <receiver android:name="com.dimowner.phonograph.RecordingService$StopRecordingReceiver" />
+        <receiver android:name="com.ninovanhooff.phonograph.RecordingService$StopRecordingReceiver" />
 
 
 

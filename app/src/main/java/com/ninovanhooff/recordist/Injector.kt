@@ -1,14 +1,14 @@
 package com.ninovanhooff.recordist
 
 import android.content.Context
-import com.dimowner.phonograph.AppRecorder
-import com.dimowner.phonograph.BackgroundQueue
-import com.dimowner.phonograph.Phonograph
-import com.dimowner.phonograph.PhonographConstants
-import com.dimowner.phonograph.audio.recorder.AudioRecorder
-import com.dimowner.phonograph.audio.recorder.RecorderContract.Recorder
-import com.dimowner.phonograph.audio.recorder.WavRecorder
-import com.dimowner.phonograph.data.FileRepository
+import com.ninovanhooff.phonograph.AppRecorder
+import com.ninovanhooff.phonograph.BackgroundQueue
+import com.ninovanhooff.phonograph.Phonograph
+import com.ninovanhooff.phonograph.PhonographConstants
+import com.ninovanhooff.phonograph.audio.recorder.AudioRecorder
+import com.ninovanhooff.phonograph.audio.recorder.RecorderContract.Recorder
+import com.ninovanhooff.phonograph.audio.recorder.WavRecorder
+import com.ninovanhooff.phonograph.data.FileRepository
 import com.ninovanhooff.recordist.data.Prefs
 import com.ninovanhooff.recordist.data.PrefsImpl
 

@@ -1,8 +1,8 @@
 package com.ninovanhooff.recordist
 
 import android.app.Application
-import com.dimowner.phonograph.Phonograph
-import com.dimowner.phonograph.util.AndroidUtils
+import com.ninovanhooff.phonograph.Phonograph
+import com.ninovanhooff.phonograph.util.AndroidUtils
 import com.ninovanhooff.recordist.presentation.MainActivity
 import timber.log.Timber
 

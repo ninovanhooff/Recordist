@@ -15,7 +15,7 @@
  */
 package com.ninovanhooff.recordist.data
 
-import com.dimowner.phonograph.data.PhonographPrefs
+import com.ninovanhooff.phonograph.data.PhonographPrefs
 
 interface Prefs : PhonographPrefs {
     val isFirstRun: Boolean

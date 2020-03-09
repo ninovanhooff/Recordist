@@ -6,7 +6,7 @@
     android:layout_margin="16dp">
 
 
-    <com.dimowner.phonograph.widget.WaveformView
+    <com.ninovanhooff.phonograph.widget.WaveformView
         android:id="@+id/waveform"
         android:layout_width="wrap_content"
         android:layout_height="200dp"

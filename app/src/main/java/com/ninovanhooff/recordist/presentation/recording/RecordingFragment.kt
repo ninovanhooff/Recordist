@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.dimowner.phonograph.util.TimeUtils
+import com.ninovanhooff.phonograph.util.TimeUtils
 import com.ninovanhooff.recordist.databinding.RecordingFragmentBinding
-import timber.log.Timber
 
 class RecordingFragment : Fragment() {
     private var _binding: RecordingFragmentBinding? = null
