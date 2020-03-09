@@ -88,6 +88,10 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
             }
 
             override fun onRecordingStopped(id: Long, file: File) {
+                val appContext = RecordistApplication.injector.provideApplicationContext()
+                val intent = Intent(appContext, RecordingService::class.java)
+                intent.action = RecordingService.ACTION_STOP_RECORDING_SERVICE
+                appContext.startService(intent)
                 recordingState.postValue(RecordingState.IDLE)
             }
 
