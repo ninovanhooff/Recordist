@@ -81,6 +81,15 @@
         android:id="@+id/recordingFragment"
         android:name="com.ninovanhooff.recordist.presentation.recording.RecordingFragment"
         android:label="@string/label_recording_notes"
-        tools:layout="@layout/recording_fragment" />
+        tools:layout="@layout/recording_fragment" >
+        <action
+            android:id="@+id/action_recordingFragment_to_permissionsFragment"
+            app:destination="@id/permissionsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/permissionsFragment"
+        android:name="com.ninovanhooff.recordist.presentation.permissions.PermissionsFragment"
+        android:label="fragment_permissions"
+        tools:layout="@layout/permissions_fragment" />
 
 </navigation>

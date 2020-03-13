@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.ninovanhooff.phonograph.util.TimeUtils
 import com.ninovanhooff.recordist.databinding.RecordingFragmentBinding
+import com.ninovanhooff.recordist.presentation.BaseFragment
 
-class RecordingFragment : Fragment() {
+class RecordingFragment : BaseFragment() {
     private var _binding: RecordingFragmentBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -21,6 +21,9 @@ class RecordingFragment : Fragment() {
         _binding = RecordingFragmentBinding.inflate(inflater, container, false)
 
         val model: RecordingViewModel by viewModels { RecordingViewModelFactory() }
+
+        connectNavigation(model)
+
         model.recordingState.observe(viewLifecycleOwner, Observer{ recordingState ->
             binding.statusText.text = recordingState.name
 

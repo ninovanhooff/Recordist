@@ -11,6 +11,8 @@ import com.ninovanhooff.phonograph.data.FileRepository
 import com.ninovanhooff.phonograph.exception.AppException
 import com.ninovanhooff.phonograph.exception.CantCreateFileException
 import com.ninovanhooff.recordist.RecordistApplication
+import com.ninovanhooff.recordist.presentation.BaseViewModel
+import com.ninovanhooff.recordist.presentation.recording.RecordingFragmentDirections.actionRecordingFragmentToPermissionsFragment
 import timber.log.Timber
 import java.io.File
 
@@ -18,7 +20,7 @@ typealias AmplitudeUpdate = Pair<Long, Int>
 
 class RecordingViewModel(private val appRecorder: AppRecorder,
                          private val fileRepository: FileRepository)
-    : ViewModel() {
+    : BaseViewModel() {
     private val appRecorderCallback: AppRecorderCallback
 
     val recordingState: MutableLiveData<RecordingState> by lazy { 
@@ -49,6 +51,7 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
             }
         } else { // STOPPING
             appRecorder.stopRecording()
+            navigate(actionRecordingFragmentToPermissionsFragment())
         }
     }
 
