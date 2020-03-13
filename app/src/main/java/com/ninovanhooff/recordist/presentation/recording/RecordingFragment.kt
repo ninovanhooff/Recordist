@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.ninovanhooff.phonograph.util.TimeUtils
 import com.ninovanhooff.recordist.databinding.RecordingFragmentBinding
 import com.ninovanhooff.recordist.presentation.BaseFragment
+import com.ninovanhooff.recordist.presentation.BaseViewModel
 
 class RecordingFragment : BaseFragment() {
     private var _binding: RecordingFragmentBinding? = null
@@ -16,15 +17,13 @@ class RecordingFragment : BaseFragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    override val vm: RecordingViewModel by viewModels { RecordingViewModelFactory() }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _binding = RecordingFragmentBinding.inflate(inflater, container, false)
 
-        val model: RecordingViewModel by viewModels { RecordingViewModelFactory() }
-
-        connectNavigation(model)
-
-        model.recordingState.observe(viewLifecycleOwner, Observer{ recordingState ->
+        vm.recordingState.observe(viewLifecycleOwner, Observer{ recordingState ->
             binding.statusText.text = recordingState.name
 
             when(recordingState){
@@ -35,13 +34,13 @@ class RecordingFragment : BaseFragment() {
             }
         })
 
-        model.amplitudeUpdates.observe(viewLifecycleOwner, Observer {
+        vm.amplitudeUpdates.observe(viewLifecycleOwner, Observer {
             binding.progressText.text = TimeUtils.formatTimeIntervalHourMinSec2(it.first)
             binding.waveform.addRecordAmp(it.second)
         })
 
-        binding.recordButton.setOnClickListener { model.toggleRecording() }
-        binding.monitorButton.setOnClickListener { model.toggleMonitoring() }
+        binding.recordButton.setOnClickListener { vm.toggleRecording() }
+        binding.monitorButton.setOnClickListener { vm.toggleMonitoring() }
 
         return binding.root
     }
