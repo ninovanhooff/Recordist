@@ -10,6 +10,7 @@ import com.ninovanhooff.recordist.presentation.NavigationCommand
 class PermissionsViewModel : BaseViewModel(){
 
     val rationaleVisibilities: MutableLiveData<Collection<String>> = MutableLiveData()
+    val permanentlyDenied: MutableLiveData<Collection<String>> = MutableLiveData()
 
 
     fun onRequiredPermissionsGranted() {
@@ -18,6 +19,10 @@ class PermissionsViewModel : BaseViewModel(){
 
     fun permissionsNeedRationale(needsRationale: Collection<String>) {
         rationaleVisibilities.value = needsRationale
+    }
+
+    fun onPermanentlyDenied(permissions: Collection<String>) {
+        permanentlyDenied.value = permissions
     }
 
 }
