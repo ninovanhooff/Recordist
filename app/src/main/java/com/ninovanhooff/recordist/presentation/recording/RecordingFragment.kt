@@ -10,6 +10,7 @@ import com.ninovanhooff.phonograph.util.TimeUtils
 import com.ninovanhooff.recordist.databinding.RecordingFragmentBinding
 import com.ninovanhooff.recordist.presentation.BaseFragment
 import com.ninovanhooff.recordist.presentation.BaseViewModel
+import com.ninovanhooff.recordist.presentation.permissions.PermissionsFragment
 
 class RecordingFragment : BaseFragment() {
     private var _binding: RecordingFragmentBinding? = null
@@ -43,6 +44,13 @@ class RecordingFragment : BaseFragment() {
         binding.monitorButton.setOnClickListener { vm.toggleMonitoring() }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(PermissionsFragment.checkPermissions(context!!).isNotEmpty()){
+            vm.onRequiredPermissionsMissing()
+        }
     }
 
     override fun onDestroyView() {

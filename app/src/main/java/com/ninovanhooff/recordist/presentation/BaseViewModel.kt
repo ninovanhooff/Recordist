@@ -10,4 +10,8 @@ open class BaseViewModel : ViewModel() {
     fun navigate(directions: NavDirections) {
         navigationCommands.postValue(NavigationCommand.To(directions))
     }
+
+    fun navigate(command: NavigationCommand) {
+        navigationCommands.postValue(command)
+    }
 }

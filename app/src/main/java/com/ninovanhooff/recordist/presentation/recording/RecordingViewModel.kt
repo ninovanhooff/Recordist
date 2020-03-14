@@ -51,7 +51,6 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
             }
         } else { // STOPPING
             appRecorder.stopRecording()
-            navigate(actionRecordingFragmentToPermissionsFragment())
         }
     }
 
@@ -106,6 +105,10 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
                 Timber.e(throwable)
             }
         }
+    }
+
+    fun onRequiredPermissionsMissing() {
+        navigate(actionRecordingFragmentToPermissionsFragment())
     }
 }
 

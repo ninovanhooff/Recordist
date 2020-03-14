@@ -89,7 +89,7 @@
     <fragment
         android:id="@+id/permissionsFragment"
         android:name="com.ninovanhooff.recordist.presentation.permissions.PermissionsFragment"
-        android:label="fragment_permissions"
+        android:label="@string/grant_permissions_label"
         tools:layout="@layout/permissions_fragment" />
 
 </navigation>

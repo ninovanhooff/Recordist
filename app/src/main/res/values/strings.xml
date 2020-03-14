@@ -1,4 +1,7 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation" > <!-- todo remove -->
     <string name="app_name">Notes Navigation</string>
     <string name="label_note_list">Note List</string>
     <string name="label_note_detail">Note Detail</string>
@@ -19,6 +22,8 @@
     <string name="confirm_delete_button_text">Confirm Delete</string>
     <string name="error_deleting_note">Error deleting note</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="grant_permissions_button_text">Grant Permissions</string>
+    <string name="grant_permissions_label">Permissions Required</string>
+    <string name="microphone_rationale_text">Microphone Rationale</string>
+    <string name="storage_rationale_text">Storage rationale</string>
 </resources>
