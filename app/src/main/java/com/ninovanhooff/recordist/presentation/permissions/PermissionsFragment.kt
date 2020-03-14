@@ -103,11 +103,14 @@ class PermissionsFragment : BaseFragment() {
         }
 
         val denied = vm.permanentlyDenied.value ?: listOf()
-        val permissionsToRequest: Collection<String> = permissions - denied
-
-        if(permissionsToRequest.isNotEmpty()){
-            requestPermissions(permissionsToRequest.toTypedArray(), PERMISSIONS_REQUEST_CODE)
+        if (denied.isNotEmpty()){
+            if (userRequested){
+                openPermissionSettings()
+            }
+            return
         }
+
+        requestPermissions(permissions.toTypedArray(), PERMISSIONS_REQUEST_CODE)
 
     }
 
