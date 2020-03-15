@@ -19,8 +19,10 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
     : BaseViewModel(), LifecycleObserver {
     private val appRecorderCallback: AppRecorderCallback
 
-    val recordingState: MutableLiveData<RecordingState> by lazy { 
-        MutableLiveData<RecordingState>(RecordingState.IDLE) 
+    val recordingState: MutableLiveData<RecordingState> by lazy {
+        MutableLiveData(
+            if (appRecorder.isRecording) RecordingState.RECORDING else RecordingState.IDLE
+        )
     }
     val amplitudeUpdates: MutableLiveData<AmplitudeUpdate> = MutableLiveData()
 
@@ -66,6 +68,8 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
             appRecorder.startMonitoring()
         }
     }
+
+    fun getRecordingData(): List<Int> = appRecorder.recordingData
 
     private fun initCallback(): AppRecorderCallback {
 

@@ -38,9 +38,11 @@ class AppRecorderImpl private constructor(private var audioRecorder: Recorder, t
                 onRecordingPaused()
             }
 
-            override fun onProgress(mills: Long, amplitude: Int, isRecording: Boolean) {
-                onRecordingProgress(mills, amplitude, isRecording)
-                recordingData.add(amplitude)
+            override fun onProgress(mills: Long, amplitude: Int, isRecordingActive: Boolean) {
+                onRecordingProgress(mills, amplitude, isRecordingActive)
+                if (isRecordingActive){
+                    recordingData.add(amplitude)
+                }
             }
 
             override fun onStopRecord(output: File) {
