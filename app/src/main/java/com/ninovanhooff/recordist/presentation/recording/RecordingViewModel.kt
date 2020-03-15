@@ -1,9 +1,7 @@
 package com.ninovanhooff.recordist.presentation.recording
 
 import android.content.Intent
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.ninovanhooff.phonograph.AppRecorder
 import com.ninovanhooff.phonograph.AppRecorderCallback
 import com.ninovanhooff.phonograph.RecordingService
@@ -16,11 +14,9 @@ import com.ninovanhooff.recordist.presentation.recording.RecordingFragmentDirect
 import timber.log.Timber
 import java.io.File
 
-typealias AmplitudeUpdate = Pair<Long, Int>
-
 class RecordingViewModel(private val appRecorder: AppRecorder,
                          private val fileRepository: FileRepository)
-    : BaseViewModel() {
+    : BaseViewModel(), LifecycleObserver {
     private val appRecorderCallback: AppRecorderCallback
 
     val recordingState: MutableLiveData<RecordingState> by lazy { 
@@ -32,6 +28,15 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
         appRecorderCallback = initCallback()
         appRecorder.addRecordingCallback(appRecorderCallback)
     }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun onPause(){
+        // Allow background recording, otherwise release the hardware
+        if (!appRecorder.isRecording){
+            appRecorder.release()
+        }
+    }
+
 
     fun toggleRecording() {
         when(recordingState.value){
@@ -62,10 +67,6 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
         }
     }
 
-    override fun onCleared() {
-        appRecorder.release()
-    }
-
     private fun initCallback(): AppRecorderCallback {
 
         return object : AppRecorderCallback {
@@ -78,7 +79,7 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
             }
 
             override fun onRecordingPaused() {
-                throw NotImplementedError()
+                Timber.d("onRecordingPaused")
             }
 
             override fun onRecordProcessing() {
@@ -97,8 +98,10 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
                 recordingState.postValue(RecordingState.IDLE)
             }
 
-            override fun onRecordingProgress(mills: Long, amp: Int) {
-                amplitudeUpdates.postValue(AmplitudeUpdate(mills, amp))
+            override fun onProgress(mills: Long, amp: Int, isRecording: Boolean) {
+                if (isRecording){
+                    amplitudeUpdates.postValue(AmplitudeUpdate(mills, amp, isRecording))
+                }
             }
 
             override fun onError(throwable: AppException) {
@@ -111,6 +114,9 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
         navigate(actionRecordingFragmentToPermissionsFragment())
     }
 }
+
+
+data class AmplitudeUpdate(val millis: Long, val amplitude: Int, val isRecording: Boolean)
 
 enum class RecordingState {
     IDLE, STARTING, RECORDING, STOPPING;

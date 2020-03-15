@@ -38,8 +38,8 @@ class AppRecorderImpl private constructor(private var audioRecorder: Recorder, t
                 onRecordingPaused()
             }
 
-            override fun onRecordProgress(mills: Long, amplitude: Int) {
-                onRecordingProgress(mills, amplitude)
+            override fun onProgress(mills: Long, amplitude: Int, isRecording: Boolean) {
+                onRecordingProgress(mills, amplitude, isRecording)
                 recordingData.add(amplitude)
             }
 
@@ -156,7 +156,7 @@ class AppRecorderImpl private constructor(private var audioRecorder: Recorder, t
     }
 
     override fun resumeRecording() {
-        if (audioRecorder.isPaused) {
+        if (audioRecorder.isRecordingPaused) {
             audioRecorder.resumeRecording()
         }
     }
@@ -190,7 +190,7 @@ class AppRecorderImpl private constructor(private var audioRecorder: Recorder, t
     }
 
     override fun isPaused(): Boolean {
-        return audioRecorder.isPaused
+        return audioRecorder.isRecordingPaused
     }
 
     override fun release() {
@@ -247,10 +247,10 @@ class AppRecorderImpl private constructor(private var audioRecorder: Recorder, t
         }
     }
 
-    private fun onRecordingProgress(mills: Long, amp: Int) {
+    private fun onRecordingProgress(mills: Long, amp: Int, isRecording: Boolean) {
         if (appCallbacks.isNotEmpty()) {
             for (i in appCallbacks.indices) {
-                appCallbacks[i].onRecordingProgress(mills, amp)
+                appCallbacks[i].onProgress(mills, amp, isRecording)
             }
         }
     }

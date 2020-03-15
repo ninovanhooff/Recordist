@@ -24,6 +24,8 @@ class RecordingFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View? {
         _binding = RecordingFragmentBinding.inflate(inflater, container, false)
 
+        lifecycle.addObserver(vm)
+
         vm.recordingState.observe(viewLifecycleOwner, Observer{ recordingState ->
             binding.statusText.text = recordingState.name
 
@@ -36,8 +38,11 @@ class RecordingFragment : BaseFragment() {
         })
 
         vm.amplitudeUpdates.observe(viewLifecycleOwner, Observer {
-            binding.progressText.text = TimeUtils.formatTimeIntervalHourMinSec2(it.first)
-            binding.waveform.addRecordAmp(it.second)
+            if (it.isRecording){
+                binding.progressText.text = TimeUtils.formatTimeIntervalHourMinSec2(it.millis)
+                binding.waveform.addRecordAmp(it.amplitude)
+            }
+
         })
 
         binding.recordButton.setOnClickListener { vm.toggleRecording() }
