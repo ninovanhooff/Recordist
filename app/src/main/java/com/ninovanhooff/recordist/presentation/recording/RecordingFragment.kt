@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import com.ninovanhooff.phonograph.util.TimeUtils
 import com.ninovanhooff.recordist.databinding.RecordingFragmentBinding
 import com.ninovanhooff.recordist.presentation.BaseFragment
-import com.ninovanhooff.recordist.presentation.BaseViewModel
 import com.ninovanhooff.recordist.presentation.permissions.PermissionsFragment
 
 class RecordingFragment : BaseFragment() {
@@ -38,6 +37,8 @@ class RecordingFragment : BaseFragment() {
         })
 
         vm.amplitudeUpdates.observe(viewLifecycleOwner, Observer {
+            binding.levels.setAmplitude(it.amplitude)
+
             if (it.isRecording){
                 binding.progressText.text = TimeUtils.formatTimeIntervalHourMinSec2(it.millis)
                 binding.waveform.addRecordAmp(it.amplitude)
