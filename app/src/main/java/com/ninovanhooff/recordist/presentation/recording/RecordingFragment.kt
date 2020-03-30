@@ -18,7 +18,7 @@ class RecordingFragment : BaseFragment() {
     private val binding get() = _binding!!
 
 
-    private val refreshInterval = 200L
+    private val refreshInterval = 30L
     private var lastFrameTime: Long = 0
 
     override val vm: RecordingViewModel by viewModels { RecordingViewModelFactory() }
