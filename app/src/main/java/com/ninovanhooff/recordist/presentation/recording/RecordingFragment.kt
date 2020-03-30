@@ -17,6 +17,10 @@ class RecordingFragment : BaseFragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+
+    private val refreshInterval = 200L
+    private var lastFrameTime: Long = 0
+
     override val vm: RecordingViewModel by viewModels { RecordingViewModelFactory() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +41,12 @@ class RecordingFragment : BaseFragment() {
         })
 
         vm.amplitudeUpdates.observe(viewLifecycleOwner, Observer {
-            binding.levels.setAmplitude(it.amplitude)
+            if (lastFrameTime + refreshInterval < System.currentTimeMillis()) {
+                // prevent jitter in the levels view
+                lastFrameTime = System.currentTimeMillis()
+                binding.levels.setAmplitude(it.amplitude)
+            }
+
 
             if (it.isRecording){
                 binding.progressText.text = TimeUtils.formatTimeIntervalHourMinSec2(it.millis)
