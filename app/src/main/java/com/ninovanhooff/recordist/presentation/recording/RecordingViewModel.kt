@@ -103,9 +103,7 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
             }
 
             override fun onProgress(mills: Long, amp: Int, isRecording: Boolean) {
-                if (isRecording){
-                    amplitudeUpdates.postValue(AmplitudeUpdate(mills, amp, isRecording))
-                }
+                amplitudeUpdates.postValue(AmplitudeUpdate(mills, amp, isRecording))
             }
 
             override fun onError(throwable: AppException) {
