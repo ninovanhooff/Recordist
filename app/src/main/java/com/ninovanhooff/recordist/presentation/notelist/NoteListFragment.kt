@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ninovanhooff.recordist.R
@@ -34,7 +34,7 @@ class NoteListFragment : Fragment() {
 
         setupRecyclerView()
 
-        viewModel = ViewModelProviders.of(this).get(NoteListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(NoteListViewModel::class.java)
         viewModel.observableNoteList.observe(viewLifecycleOwner, Observer { notes ->
             notes?.let { render(notes) }
         })

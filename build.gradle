@@ -8,6 +8,7 @@ buildscript {
             targetSdkVersion       : 29,
             minSdkVersion          : 21,
             androidx_navigation   : "2.2.1",
+            androidx_lifecycle   : "2.2.0",
 
             timber          : "4.7.1"
     ]

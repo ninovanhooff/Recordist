@@ -50,10 +50,13 @@ class RecordingFragment : BaseFragment() {
 
 
             if (it.isRecording){
-                binding.progressText.text = TimeUtils.formatTimeIntervalHourMinSec2(it.millis)
                 binding.waveform.addRecordAmp(it.amplitude)
             }
 
+        })
+
+        vm.progressTextUpdates.observe(viewLifecycleOwner, Observer {
+            binding.progressText.text = it
         })
 
         binding.waveform.setRecordingData(vm.getRecordingData())

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation.findNavController
 import com.ninovanhooff.recordist.R
 import com.ninovanhooff.recordist.domain.Note
@@ -30,7 +30,7 @@ class EditNoteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(EditNoteViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(EditNoteViewModel::class.java)
         viewModel.observableCurrentNote.observe(viewLifecycleOwner, Observer { currentNote ->
             currentNote?.let { initCurrentNote(currentNote) }
         })
