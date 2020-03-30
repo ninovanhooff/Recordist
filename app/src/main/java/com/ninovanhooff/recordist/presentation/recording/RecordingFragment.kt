@@ -41,10 +41,11 @@ class RecordingFragment : BaseFragment() {
         })
 
         vm.amplitudeUpdates.observe(viewLifecycleOwner, Observer {
-            if (lastFrameTime + refreshInterval < System.currentTimeMillis()) {
+            val invalidate = lastFrameTime + refreshInterval < System.currentTimeMillis()
+            binding.levels.setAmplitude(it.amplitude, invalidate)
+            if (invalidate) {
                 // prevent jitter in the levels view
                 lastFrameTime = System.currentTimeMillis()
-                binding.levels.setAmplitude(it.amplitude)
             }
 
 
