@@ -169,6 +169,14 @@ class AppRecorderImpl private constructor(private var audioRecorder: Recorder, t
         }
     }
 
+    override fun startVisualizing() {
+        audioRecorder.startVisualizing()
+    }
+
+    override fun stopVisualizing() {
+        audioRecorder.stopVisualizing()
+    }
+
     override fun supportsMonitoring(): Boolean {
         return audioRecorder is RecorderContract.Monitor
     }

@@ -35,15 +35,20 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
 
     init {
         appRecorderCallback = initCallback()
-        appRecorder.addRecordingCallback(appRecorderCallback)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onPause(){
         // Allow background recording, otherwise release the hardware
         if (!appRecorder.isRecording){
-            appRecorder.release()
+            appRecorder.release() // also removes recording callbacks
         }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun onResume(){
+        appRecorder.addRecordingCallback(appRecorderCallback)
+        appRecorder.startVisualizing()
     }
 
 
