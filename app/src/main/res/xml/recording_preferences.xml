@@ -40,6 +40,6 @@
             android:icon="@drawable/ic_title_white_24px"
             android:key="pref_naming_format"
             android:summary="%s"
-            android:title="Naming format"/>
+            android:title="@string/pref_naming_format_label"/>
 
 </PreferenceScreen>
