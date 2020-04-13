@@ -162,7 +162,7 @@ class PrefsImpl private constructor(context: Context) : Prefs {
     }
 
     companion object {
-        private const val PREF_NAME = "com.dimowner.audiorecorder.data.PrefsImpl"
+        private const val PREF_NAME = "com.ninovanhooff.recordist.data.PrefsImpl"
         private const val PREF_KEY_IS_FIRST_RUN = "is_first_run"
         private const val PREF_KEY_IS_STORE_DIR_PUBLIC = "is_store_dir_public"
         private const val PREF_KEY_IS_ASK_TO_RENAME_AFTER_STOP_RECORDING = "is_ask_rename_after_stop_recording"
@@ -173,10 +173,9 @@ class PrefsImpl private constructor(context: Context) : Prefs {
         private const val PREF_KEY_FORMAT = "pref_format"
         private const val PREF_KEY_BITRATE = "pref_bitrate"
         private const val PREF_KEY_SAMPLE_RATE = "pref_sample_rate"
+        private const val PREF_KEY_RECORD_CHANNEL_COUNT = "pref_channel_count"
         private const val PREF_KEY_RECORDS_ORDER = "pref_records_order"
         private const val PREF_KEY_NAMING_FORMAT = "pref_naming_format"
-        //Recording prefs.
-        private const val PREF_KEY_RECORD_CHANNEL_COUNT = "record_channel_count"
         @Volatile
         private var instance: PrefsImpl? = null
 

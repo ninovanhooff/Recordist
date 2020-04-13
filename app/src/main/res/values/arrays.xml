@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="formats">
+        <item>WAV (.wav)</item>
+        <item>AAC (.m4a)</item>
+    </string-array>
+
+    <string-array name="format_values">
+        <item>wav</item>
+        <item>m4a</item>
+    </string-array>
+
+    <string-array name="sample_rates">
+        <item>8 kHz</item>
+        <item>16 kHz </item>
+        <item>32 kHz</item>
+        <item>44.1 kHz</item>
+        <item>48 kHz</item>
+    </string-array>
+
+    <string-array name="sample_rate_values">
+        <item>8000</item>
+        <item>16000</item>
+        <item>32000</item>
+        <item>44100</item>
+        <item>48000</item>
+    </string-array>
+
+    <string-array name="bit_rates">
+        <item>24 kb/s</item>
+        <item>48 kb/s</item>
+        <item>96 kb/s</item>
+        <item>128 kb/s</item>
+        <item>192 kb/s</item>
+    </string-array>
+
+    <string-array name="bit_rate_values">
+        <item>24</item>
+        <item>48</item>
+        <item>96</item>
+        <item>128</item>
+        <item>192</item>
+    </string-array>
+
+    <string-array name="naming_formats">
+        <item>Record-1</item>
+        <item>Rec-2020.11.04 14:15:00</item>
+    </string-array>
+
+    <string-array name="naming_format_values">
+        <item>counted</item>
+        <item>datetime</item>
+    </string-array>
+
+</resources>

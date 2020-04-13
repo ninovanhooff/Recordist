@@ -1,13 +1,45 @@
-<PreferenceScreen
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreferenceCompat
-        app:key="notifications"
-        app:title="Enable message notifications"/>
+        <ListPreference
+            android:defaultValue="wav"
+            android:entries="@array/formats"
+            android:entryValues="@array/format_values"
+            android:icon="@drawable/ic_music_note_white_24px"
+            android:key="pref_format"
+            android:summary="%s"
+            android:title="@string/pref_format_label" />
 
-    <Preference
-        app:key="feedback"
-        app:title="Send feedback"
-        app:summary="Report technical issues or suggest new features"/>
+        <ListPreference
+            android:defaultValue="48000"
+            android:entries="@array/sample_rates"
+            android:entryValues="@array/sample_rate_values"
+            android:icon="@drawable/ic_graphic_eq_white_24px"
+            android:key="pref_sample_rate"
+            android:summary="%s"
+            android:title="@string/pref_sample_rate_label" />
+
+        <ListPreference
+            android:defaultValue="192"
+            android:entries="@array/bit_rates"
+            android:entryValues="@array/bit_rate_values"
+            android:icon="@drawable/ic_graphic_eq_white_24px"
+            android:key="pref_bitrate"
+            android:summary="%s"
+            android:title="@string/pref_bitrate_label" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_surround_sound_2_0"
+            android:key="pref_channel_count"
+            android:title="@string/pref_channel_count_label" />
+
+        <ListPreference
+            android:defaultValue="counted"
+            android:entries="@array/naming_formats"
+            android:entryValues="@array/naming_format_values"
+            android:icon="@drawable/ic_title_white_24px"
+            android:key="pref_naming_format"
+            android:summary="%s"
+            android:title="Naming format"/>
 
 </PreferenceScreen>
