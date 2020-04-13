@@ -14,6 +14,7 @@ import com.ninovanhooff.phonograph.util.TimeUtils
 import com.ninovanhooff.recordist.RecordistApplication
 import com.ninovanhooff.recordist.presentation.BaseViewModel
 import com.ninovanhooff.recordist.presentation.recording.RecordingFragmentDirections.actionRecordingFragmentToPermissionsFragment
+import com.ninovanhooff.recordist.presentation.recording.RecordingFragmentDirections.actionRecordingFragmentToRecordingPreferenceFragment
 import timber.log.Timber
 import java.io.File
 
@@ -79,6 +80,10 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
         } else {
             appRecorder.startMonitoring()
         }
+    }
+
+    fun openPreferences() {
+        navigate(actionRecordingFragmentToRecordingPreferenceFragment())
     }
 
     fun getRecordingData(): List<Int> = appRecorder.recordingData

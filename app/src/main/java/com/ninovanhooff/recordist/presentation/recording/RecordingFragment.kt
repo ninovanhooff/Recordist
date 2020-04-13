@@ -62,6 +62,7 @@ class RecordingFragment : BaseFragment() {
         binding.waveform.setRecordingData(vm.getRecordingData())
         binding.recordButton.setOnClickListener { vm.toggleRecording() }
         binding.monitorButton.setOnClickListener { vm.toggleMonitoring() }
+        binding.preferenceButton.setOnClickListener { vm.openPreferences() }
 
         return binding.root
     }
