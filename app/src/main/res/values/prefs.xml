@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation" >
+
+    <string name="pref_key_format">pref_key_format</string>
+    <integer name="pref_default_format">1</integer> <!-- wav -->
+
+    <string name="pref_key_channel_count">pref_key_channel_count</string>
+    <bool name="pref_default_channel_count">true</bool>
+
+    <string name="pref_key_bitrate">pref_key_bitrate</string>
+    <integer name="pref_default_bitrate">192</integer>
+
+    <string name="pref_key_sample_rate">pref_key_sample_rate</string>
+    <integer name="pref_default_sample_rate">48000</integer>
+
+    <string name="pref_key_naming_format">pref_key_naming_format</string>
+    <integer name="pref_default_naming_format">0</integer> <!-- counted -->
+
+
+</resources>

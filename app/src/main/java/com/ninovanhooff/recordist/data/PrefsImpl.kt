@@ -2,7 +2,7 @@
  * Copyright 2018 Dmitriy Ponomarenko
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this file except in compliance with(the License.
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
@@ -20,6 +20,8 @@ package com.ninovanhooff.recordist.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
+import androidx.annotation.StringRes
 import com.ninovanhooff.phonograph.PhonographConstants
 import com.ninovanhooff.phonograph.util.FileUtil
 import com.ninovanhooff.recordist.R
@@ -28,16 +30,26 @@ import com.ninovanhooff.recordist.R
  * App preferences implementation
  */
 class PrefsImpl private constructor(context: Context) : Prefs {
+    private val resources: Resources
     private val sharedPreferences: SharedPreferences
     private val publicRecordingDirName: String
     override val isFirstRun: Boolean
         get() = !sharedPreferences.contains(PREF_KEY_IS_FIRST_RUN) || sharedPreferences.getBoolean(PREF_KEY_IS_FIRST_RUN, false)
 
+    init {
+        val prefsName = context.packageName + "_preferences"
+        sharedPreferences = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
+        resources = context.resources
+        val appName = context.getString(R.string.app_name)
+        publicRecordingDirName = FileUtil.removeUnallowedSignsFromName(appName)
+    }
+
     override fun firstRunExecuted() {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(PREF_KEY_IS_FIRST_RUN, false)
-        editor.putBoolean(PREF_KEY_IS_STORE_DIR_PUBLIC, true)
-        editor.apply()
+        with(sharedPreferences.edit()) {
+            putBoolean(PREF_KEY_IS_FIRST_RUN, false)
+            putBoolean(PREF_KEY_IS_STORE_DIR_PUBLIC, true)
+            apply()
+        }
     }
 
     override fun isStoreDirPublic(): Boolean {
@@ -45,17 +57,19 @@ class PrefsImpl private constructor(context: Context) : Prefs {
     }
 
     override fun setStoreDirPublic(b: Boolean) {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(PREF_KEY_IS_STORE_DIR_PUBLIC, b)
-        editor.apply()
+        with(sharedPreferences.edit()) {
+            putBoolean(PREF_KEY_IS_STORE_DIR_PUBLIC, b)
+            apply()
+        }
     }
 
     override var isAskToRenameAfterStopRecording: Boolean
         get() = sharedPreferences.contains(PREF_KEY_IS_ASK_TO_RENAME_AFTER_STOP_RECORDING) && sharedPreferences.getBoolean(PREF_KEY_IS_ASK_TO_RENAME_AFTER_STOP_RECORDING, true)
         set(b) {
-            val editor = sharedPreferences.edit()
-            editor.putBoolean(PREF_KEY_IS_ASK_TO_RENAME_AFTER_STOP_RECORDING, b)
-            editor.apply()
+            with(sharedPreferences.edit()) {
+                putBoolean(PREF_KEY_IS_ASK_TO_RENAME_AFTER_STOP_RECORDING, b)
+                apply()
+            }
         }
 
     override fun hasAskToRenameAfterStopRecordingSetting(): Boolean {
@@ -65,9 +79,10 @@ class PrefsImpl private constructor(context: Context) : Prefs {
     override var activeRecord: Long
         get() = sharedPreferences.getLong(PREF_KEY_ACTIVE_RECORD, -1)
         set(id) {
-            val editor = sharedPreferences.edit()
-            editor.putLong(PREF_KEY_ACTIVE_RECORD, id)
-            editor.apply()
+            with(sharedPreferences.edit()) {
+                putLong(PREF_KEY_ACTIVE_RECORD, id)
+                apply()
+            }
         }
 
     override fun getRecordCounter(): Long {
@@ -75,66 +90,69 @@ class PrefsImpl private constructor(context: Context) : Prefs {
     }
 
     override fun incrementRecordCounter() {
-        val editor = sharedPreferences.edit()
-        editor.putLong(PREF_KEY_RECORD_COUNTER, recordCounter + 1)
-        editor.apply()
+        with(sharedPreferences.edit()) {
+            putLong(PREF_KEY_RECORD_COUNTER, recordCounter + 1)
+            apply()
+        }
+            
     }
 
     override fun setAppThemeColor(colorMapPosition: Int) {
-        val editor = sharedPreferences.edit()
-        editor.putInt(PREF_KEY_THEME_COLORMAP_POSITION, colorMapPosition)
-        editor.apply()
+        with(sharedPreferences.edit()) {
+            putInt(PREF_KEY_THEME_COLORMAP_POSITION, colorMapPosition)
+            apply()
+        }
     }
 
     override val themeColor: Int
         get() = sharedPreferences.getInt(PREF_KEY_THEME_COLORMAP_POSITION, 0)
 
     override fun setRecordInStereo(stereo: Boolean) {
-        val editor = sharedPreferences.edit()
-        editor.putInt(PREF_KEY_RECORD_CHANNEL_COUNT, if (stereo) PhonographConstants.RECORD_AUDIO_STEREO else PhonographConstants.RECORD_AUDIO_MONO)
-        editor.apply()
+        with(sharedPreferences.edit()) {
+            putInt(PREF_KEY_RECORD_CHANNEL_COUNT, if (stereo) PhonographConstants.RECORD_AUDIO_STEREO else PhonographConstants.RECORD_AUDIO_MONO)
+            apply()
+        }
     }
 
     override fun getRecordChannelCount(): Int {
-        return sharedPreferences.getInt(PREF_KEY_RECORD_CHANNEL_COUNT, PhonographConstants.RECORD_AUDIO_STEREO)
+        return if(getBoolean(R.string.pref_key_channel_count, true)){
+            PhonographConstants.RECORD_AUDIO_STEREO
+        } else {
+            PhonographConstants.RECORD_AUDIO_MONO
+        }
     }
 
     override var isKeepScreenOn: Boolean
         get() = sharedPreferences.getBoolean(PREF_KEY_KEEP_SCREEN_ON, false)
         set(on) {
-            val editor = sharedPreferences.edit()
-            editor.putBoolean(PREF_KEY_KEEP_SCREEN_ON, on)
-            editor.apply()
+            with(sharedPreferences.edit()) {
+                putBoolean(PREF_KEY_KEEP_SCREEN_ON, on)
+                apply()
+            }
         }
 
     override fun setFormat(f: Int) {
-        val editor = sharedPreferences.edit()
-        editor.putInt(PREF_KEY_FORMAT, f)
-        editor.apply()
+        putInt(R.string.pref_key_format, f)
     }
 
     override fun getFormat(): Int {
-        return sharedPreferences.getInt(PREF_KEY_FORMAT, PhonographConstants.RECORDING_FORMAT_WAV)
+        return getInt(R.string.pref_key_format)
     }
 
     override fun setBitrate(q: Int) {
-        val editor = sharedPreferences.edit()
-        editor.putInt(PREF_KEY_BITRATE, q)
-        editor.apply()
+        putInt(R.string.pref_key_bitrate, q)
     }
 
     override fun getBitrate(): Int {
-        return sharedPreferences.getInt(PREF_KEY_BITRATE, PhonographConstants.RECORD_ENCODING_BITRATE_128000)
+        return getInt(R.string.pref_key_bitrate)
     }
 
     override fun setSampleRate(rate: Int) {
-        val editor = sharedPreferences.edit()
-        editor.putInt(PREF_KEY_SAMPLE_RATE, rate)
-        editor.apply()
+        putInt(R.string.pref_key_sample_rate, rate)
     }
 
     override fun getSampleRate(): Int {
-        return sharedPreferences.getInt(PREF_KEY_SAMPLE_RATE, PhonographConstants.RECORD_SAMPLE_RATE_44100)
+        return getInt(R.string.pref_key_sample_rate)
     }
 
     /** Not user-settable for now. Returns app name  */
@@ -143,26 +161,94 @@ class PrefsImpl private constructor(context: Context) : Prefs {
     }
 
     override fun setRecordOrder(order: Int) {
-        val editor = sharedPreferences.edit()
-        editor.putInt(PREF_KEY_RECORDS_ORDER, order)
-        editor.apply()
+        with(sharedPreferences.edit()) {
+            putInt(PREF_KEY_RECORDS_ORDER, order)
+            apply()
+        }
     }
 
     override val recordsOrder: Int
         get() = sharedPreferences.getInt(PREF_KEY_RECORDS_ORDER, PhonographConstants.SORT_DATE)
 
     override fun setNamingFormat(format: Int) {
-        val editor = sharedPreferences.edit()
-        editor.putInt(PREF_KEY_NAMING_FORMAT, format)
-        editor.apply()
+        putInt(R.string.pref_key_naming_format, format)
     }
 
     override fun getNamingFormat(): Int {
-        return sharedPreferences.getInt(PREF_KEY_NAMING_FORMAT, PhonographConstants.NAMING_COUNTED)
+        return getInt(R.string.pref_key_naming_format)
+    }
+
+    fun getString(@StringRes keyResourceId: Int, default: String? = null): String? {
+        return sharedPreferences.getString(key(keyResourceId), default)
+    }
+
+    fun putString(@StringRes keyResourceId: Int, value: String){
+        with(sharedPreferences.edit()){
+            putString(key(keyResourceId), value)
+            apply()
+        }
+    }
+
+    fun getInt(@StringRes keyResourceId: Int): Int {
+        val default = defaultKey(keyResourceId, "integer").let {
+            if (it == 0){
+                0
+            } else {
+                try {
+                    resources.getInteger(it)
+                } catch (e: Resources.NotFoundException) {
+                    0
+                }
+            }
+        }
+
+        return getInt(keyResourceId, default)
+    }
+
+    fun getInt(@StringRes keyResourceId: Int, default: Int = 0): Int {
+        return getString(keyResourceId)?.let { Integer.parseInt(it) } ?: default
+    }
+
+    fun putInt(@StringRes keyResourceId: Int, value: Int){
+        putString(keyResourceId, value.toString())
+    }
+
+    fun getBoolean(@StringRes keyResourceId: Int): Boolean {
+        val default = defaultKey(keyResourceId, "bool").let {
+            if (it == 0){
+                false
+            } else {
+                try {
+                    resources.getBoolean(it)
+                } catch (e: Resources.NotFoundException) {
+                    false
+                }
+            }
+        }
+
+        return sharedPreferences.getBoolean(key(keyResourceId), default)
+    }
+
+    fun getBoolean(@StringRes keyResourceId: Int, default: Boolean): Boolean =
+            sharedPreferences.getBoolean(key(keyResourceId), default)
+
+    fun putBoolean(@StringRes keyResourceId: Int, value: Boolean){
+        with(sharedPreferences.edit()){
+            putBoolean(key(keyResourceId), value)
+            apply()
+        }
+
+    }
+
+    private fun key(keyResourceId: Int) = resources.getString(keyResourceId)
+
+    /** @return 0 if not found, resource id otherwise */
+    private fun defaultKey(keyResourceId: Int, type: String): Int {
+        val defaultKeyName = resources.getResourceEntryName(keyResourceId).replace("pref_key_", "pref_default_")
+        return resources.getIdentifier(defaultKeyName, type, resources.getResourcePackageName(keyResourceId))
     }
 
     companion object {
-        private const val PREF_NAME = "com.ninovanhooff.recordist.data.PrefsImpl"
         private const val PREF_KEY_IS_FIRST_RUN = "is_first_run"
         private const val PREF_KEY_IS_STORE_DIR_PUBLIC = "is_store_dir_public"
         private const val PREF_KEY_IS_ASK_TO_RENAME_AFTER_STOP_RECORDING = "is_ask_rename_after_stop_recording"
@@ -170,12 +256,8 @@ class PrefsImpl private constructor(context: Context) : Prefs {
         private const val PREF_KEY_RECORD_COUNTER = "record_counter"
         private const val PREF_KEY_THEME_COLORMAP_POSITION = "theme_color"
         private const val PREF_KEY_KEEP_SCREEN_ON = "keep_screen_on"
-        private const val PREF_KEY_FORMAT = "pref_format"
-        private const val PREF_KEY_BITRATE = "pref_bitrate"
-        private const val PREF_KEY_SAMPLE_RATE = "pref_sample_rate"
         private const val PREF_KEY_RECORD_CHANNEL_COUNT = "pref_channel_count"
         private const val PREF_KEY_RECORDS_ORDER = "pref_records_order"
-        private const val PREF_KEY_NAMING_FORMAT = "pref_naming_format"
         @Volatile
         private var instance: PrefsImpl? = null
 
@@ -189,11 +271,5 @@ class PrefsImpl private constructor(context: Context) : Prefs {
             }
             return instance
         }
-    }
-
-    init {
-        sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-        val appName = context.getString(R.string.app_name)
-        publicRecordingDirName = FileUtil.removeUnallowedSignsFromName(appName)
     }
 }

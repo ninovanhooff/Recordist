@@ -1,44 +1,44 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
         <ListPreference
-            android:defaultValue="wav"
+            android:defaultValue="@integer/pref_default_format"
             android:entries="@array/formats"
             android:entryValues="@array/format_values"
             android:icon="@drawable/ic_music_note_white_24px"
-            android:key="pref_format"
+            android:key="@string/pref_key_format"
             android:summary="%s"
             android:title="@string/pref_format_label" />
 
         <ListPreference
-            android:defaultValue="48000"
+            android:defaultValue="@integer/pref_default_sample_rate"
             android:entries="@array/sample_rates"
             android:entryValues="@array/sample_rate_values"
             android:icon="@drawable/ic_graphic_eq_white_24px"
-            android:key="pref_sample_rate"
+            android:key="@string/pref_key_sample_rate"
             android:summary="%s"
             android:title="@string/pref_sample_rate_label" />
 
         <ListPreference
-            android:defaultValue="192"
+            android:defaultValue="@integer/pref_default_bitrate"
             android:entries="@array/bit_rates"
             android:entryValues="@array/bit_rate_values"
             android:icon="@drawable/ic_equalizer_white_24px"
-            android:key="pref_bitrate"
+            android:key="@string/pref_key_bitrate"
             android:summary="%s"
             android:title="@string/pref_bitrate_label" />
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="@bool/pref_default_channel_count"
             android:icon="@drawable/ic_surround_sound_2_0"
-            android:key="pref_channel_count"
+            android:key="@string/pref_key_channel_count"
             android:title="@string/pref_channel_count_label" />
 
         <ListPreference
-            android:defaultValue="counted"
+            android:defaultValue="@integer/pref_default_naming_format"
             android:entries="@array/naming_formats"
             android:entryValues="@array/naming_format_values"
             android:icon="@drawable/ic_title_white_24px"
-            android:key="pref_naming_format"
+            android:key="@string/pref_key_naming_format"
             android:summary="%s"
             android:title="@string/pref_naming_format_label"/>
 

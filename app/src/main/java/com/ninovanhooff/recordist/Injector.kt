@@ -37,7 +37,7 @@ class Injector constructor(private val context: Context) {
     fun provideProcessingTasksQueue(): BackgroundQueue = processingTasks
 
     fun provideAudioRecorder(): Recorder {
-        return if (providePrefs().getFormat() == PhonographConstants.RECORDING_FORMAT_WAV) {
+        return if (providePrefs().format == PhonographConstants.RECORDING_FORMAT_WAV) {
             WavRecorder.getInstance()
         } else {
             AudioRecorder.getInstance()

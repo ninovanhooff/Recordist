@@ -6,8 +6,8 @@
     </string-array>
 
     <string-array name="format_values">
-        <item>wav</item>
-        <item>m4a</item>
+        <item>1</item> <!-- PhonographConstants.RECORDING_FORMAT_WAV -->
+        <item>0</item> <!-- PhonographConstants.RECORDING_FORMAT_M4A -->
     </string-array>
 
     <string-array name="sample_rates">
@@ -48,8 +48,8 @@
     </string-array>
 
     <string-array name="naming_format_values">
-        <item>counted</item>
-        <item>datetime</item>
+        <item>0</item> <!-- PhonographConstants.NAMING_COUNTED -->
+        <item>1</item> <!-- PhonographConstants.NAMING_DATE -->
     </string-array>
 
 </resources>
