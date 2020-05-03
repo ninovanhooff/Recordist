@@ -48,6 +48,12 @@ class RecordingViewModel(private val appRecorder: AppRecorder,
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onResume(){
+        if (!appRecorder.isRecording){
+            // re-init because recording settings might have changed
+            appRecorder.release()
+            appRecorder.setRecorder(RecordistApplication.injector.provideAudioRecorder())
+        }
+
         appRecorder.addRecordingCallback(appRecorderCallback)
         appRecorder.startVisualizing()
     }
