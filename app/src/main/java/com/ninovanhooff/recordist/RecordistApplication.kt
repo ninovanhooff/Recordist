@@ -19,7 +19,8 @@ class RecordistApplication: Application() {
         Phonograph.initialize(
                 applicationContext,
                 MainActivity::class.java,
-                injector.provideAppRecorder()
+                injector.provideAppRecorder(),
+                injector.providePrefs()
         )
         Phonograph.setScreenWidthDp(AndroidUtils.pxToDp(AndroidUtils.getScreenWidth(applicationContext)))
     }
